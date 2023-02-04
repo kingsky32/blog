@@ -1,0 +1,51 @@
+scalar Date
+
+type Account {
+  id: ID!
+  userId: String!
+  provider: String!
+  providerAccountId: String!
+  access_token: String!
+  refresh_token: String!
+  expires_at: Int
+  token_type: String
+  scope: String
+  id_token: String
+  session_state: String
+}
+
+type Session {
+  id: ID!
+  sessionToken: String!
+  userId: String!
+  expires: Date!
+
+  user: User!
+}
+
+type User {
+  id: ID!
+  firstName: String
+  lastName: String
+  nickname: String
+  username: String
+  email: String
+  emailVerified: Date
+  password: String
+  bio: String
+  image: String
+  roleId: String
+  accounts: [Account!]!
+  sessions: [Session!]!
+  createdAt: Date!
+  updatedAt: Date!
+  role: Role
+}
+
+type Role {
+  id: ID!
+  name: String!
+  level: Int!
+
+  users: [User!]!
+}

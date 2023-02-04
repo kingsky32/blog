@@ -1,0 +1,22 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./app.Dockerfile
+    ports:
+      - '3000:3000'
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: blog
+      POSTGRES_PASSWORD: blog
+      POSTGRES_DB: blog
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - '6379:6379'

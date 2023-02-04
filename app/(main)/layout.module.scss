@@ -1,0 +1,21 @@
+@import '#styles/colors.module.scss';
+
+.header {
+  padding: 2rem 0;
+  border-bottom: 0.1rem solid $border-default-color;
+}
+
+.main {
+  min-height: calc(100vh - 16.8rem);
+}
+
+.footer {
+  padding: 3.5rem 0;
+  border-top: 0.1rem solid $border-default-color;
+  .copyright {
+    text-align: center;
+    font-size: 1.4rem;
+    color: $text-light-color;
+    font-weight: 300;
+  }
+}

@@ -1,0 +1,14 @@
+@import '#styles/colors.module.scss';
+
+html,
+body {
+  font-size: 10px;
+  color: $text-default-color;
+}
+
+a {
+  color: $text-link-color;
+  &:hover {
+    color: $text-link-hover-color;
+  }
+}
