@@ -20,7 +20,7 @@ export default function MainLayout({
         <div className={styles.inner}>
           <h1>
             <Link href="/">
-              <Logo width="15rem" />
+              <Logo width="10rem" />
             </Link>
           </h1>
         </div>

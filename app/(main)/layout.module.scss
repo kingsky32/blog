@@ -3,10 +3,14 @@
 .header {
   padding: 2rem 0;
   border-bottom: 0.1rem solid $border-default-color;
+  .inner {
+    max-width: 90rem;
+    padding: 0 2rem;
+    margin: 0 auto;
+  }
 }
 
 .main {
-  min-height: calc(100vh - 16.8rem);
 }
 
 .footer {

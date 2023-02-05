@@ -1,0 +1,66 @@
+@import '#styles/colors.module.scss';
+
+.container {
+  max-width: 64.4rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3.5rem 0;
+  .thumbnail {
+    width: 100%;
+    height: 32.2rem;
+    border-radius: 1.2rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    object-fit: cover;
+  }
+  .title {
+    margin: 0 0 2rem;
+    font-size: 4.8rem;
+    font-weight: 700;
+    line-height: 5.6rem;
+    color: $text-default-color;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .profileContainer {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin-bottom: 5rem;
+    &:hover {
+      .profileImage {
+        transform: translateY(-0.5rem);
+        box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
+      }
+      .profileContentsContainer {
+        .profileName {
+          color: $text-link-hover-color;
+        }
+      }
+    }
+    .profileImage {
+      width: 4.8rem;
+      height: 4.8rem;
+      border-radius: 2.4rem;
+      margin-right: 1.4rem;
+      align-items: center;
+      transition: all 0.2s ease;
+      object-fit: cover;
+    }
+    .profileContentsContainer {
+      .profileName {
+        font-size: 1.7rem;
+        font-weight: 600;
+        color: $text-link-color;
+        white-space: nowrap;
+        margin-bottom: 0.5rem;
+      }
+      .createdAt {
+        font-size: 1.4rem;
+        color: $text-light-color;
+      }
+    }
+  }
+  .contents {
+  }
+}

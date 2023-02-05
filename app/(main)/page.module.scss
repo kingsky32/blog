@@ -1,0 +1,14 @@
+.container {
+  max-width: 90rem;
+  width: 100%;
+  margin: 0 auto;
+  .listsContainer {
+    padding: 5rem 0;
+    box-sizing: border-box;
+    .list {
+      &:not(:last-child) {
+        margin-bottom: 6rem;
+      }
+    }
+  }
+}

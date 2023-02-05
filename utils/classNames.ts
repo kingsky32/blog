@@ -1,4 +1,4 @@
-export default function classNames(...array: string[]): string {
+export default function classNames(...array: any[]): string {
   const [a] = array;
 
   if (Array.isArray(a)) {

@@ -23,7 +23,7 @@ model Account {
   id_token          String? @db.Text
   session_state     String?
 
-  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -35,7 +35,7 @@ model Session {
   userId       String   @map("user_id")
   expires      DateTime
 
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
 }
@@ -55,9 +55,10 @@ model User {
   accounts      Account[]
   sessions      Session[]
   createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt      @map(name: "updated_at")
+  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
 
-  role          Role?     @relation(fields: [roleId], references: [id])
+  role Role?  @relation(fields: [roleId], references: [id])
+  Post Post[]
 
   @@map("users")
 }
@@ -81,19 +82,31 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
-model AdminMenu {
-  menu       String     @id
-  permission Int        @default(0)
-  name       String
-  createdAt  DateTime   @default(now()) @map(name: "created_at")
-  updatedAt  DateTime   @updatedAt      @map(name: "updated_at")
+model Category {
+  code String @id
+  name String
 
-  @@map("admin_menus")
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  Post      Post[]
+
+  @@map("categories")
 }
 
-model Config {
-  key   String      @id
-  value String
+model Post {
+  id Int @id @default(autoincrement())
 
-  @@map("configs")
+  title    String
+  contents String
+
+  categoryCode String @map(name: "category_code")
+  createdById  String @map(name: "created_by_id")
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  category  Category @relation(fields: [categoryCode], references: [code])
+  createdBy User     @relation(fields: [createdById], references: [id])
+
+  @@map("posts")
 }
