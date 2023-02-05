@@ -48,3 +48,37 @@ type Role {
 
   users: [User!]!
 }
+
+type File {
+  id: String!
+  source: String!
+  mimetype: String!
+  encoding: String!
+  filename: String!
+  width: Int!
+  height: Int!
+
+  createdAt: Date!
+  updatedAt: Date!
+}
+
+type Category {
+  code: String!
+  name: String!
+  createdAt: Date!
+  updatedAt: Date!
+
+  posts: [Post!]!
+}
+
+type Post {
+  id: Int!
+  title: String!
+  description: String!
+  contents: String!
+  thumbnail: File!
+  category: Category!
+  createdBy: User!
+  createdAt: Date!
+  updatedAt: Date!
+}

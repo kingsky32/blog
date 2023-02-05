@@ -82,13 +82,31 @@ model VerificationToken {
   @@map("verification_tokens")
 }
 
+model File {
+  id       String @id @default(cuid())
+  source   String
+  encoding String
+  mimetype String
+  filename String
+  width    Int
+  height   Int
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  posts Post[]
+
+  @@map("files")
+}
+
 model Category {
   code String @id
   name String
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
-  Post      Post[]
+
+  posts Post[]
 
   @@map("categories")
 }
@@ -96,15 +114,17 @@ model Category {
 model Post {
   id Int @id @default(autoincrement())
 
-  title    String
-  contents String
-
+  title        String
+  description  String
+  contents     String
+  thumbnailId  String @map(name: "thumbnail_id")
   categoryCode String @map(name: "category_code")
   createdById  String @map(name: "created_by_id")
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
 
+  thumbnail File     @relation(fields: [thumbnailId], references: [id])
   category  Category @relation(fields: [categoryCode], references: [code])
   createdBy User     @relation(fields: [createdById], references: [id])
 
