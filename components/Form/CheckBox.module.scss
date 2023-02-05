@@ -1,0 +1,10 @@
+.container {
+  display: inline-flex;
+  align-items: center;
+  .input {
+    margin: 0 0.5rem 0 0;
+  }
+  .label {
+    font-size: 1.4rem;
+  }
+}

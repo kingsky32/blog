@@ -68,7 +68,8 @@
     "react/jsx-no-bind": 0,
     "vars-on-top": 0,
     "import/no-mutable-exports": 0,
-    "no-undef": 0
+    "no-undef": 0,
+    "jsx-a11y/label-has-associated-control": 0
   },
   "settings": {
     "import/resolver": {

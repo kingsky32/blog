@@ -1,0 +1,48 @@
+@import '#styles/colors.module.scss';
+
+.container {
+  display: block;
+  &.error {
+    .label {
+      color: $danger-color;
+    }
+    .input {
+      border-color: $danger-color;
+      color: $danger-color;
+      &::placeholder {
+        color: $danger-color;
+      }
+    }
+  }
+  .label {
+    font-size: 1.4rem;
+    color: $text-light-color;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .input {
+    display: block;
+    width: 100%;
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 1px solid $border-component-floating-color;
+    border-left: 0;
+    font-size: 1.6rem;
+    padding: 1rem 0;
+    outline: none;
+    color: $text-default-color;
+    transition: border-color 0.2s ease;
+    &::placeholder {
+      color: $text-light-color;
+    }
+    &:hover,
+    &:focus {
+      border-color: $primary-color;
+    }
+  }
+  .description {
+    margin-top: 0.5rem;
+    font-size: 1.4rem;
+    color: $danger-color;
+  }
+}

@@ -1,0 +1,12 @@
+type Mutation {
+  join(
+    firstName: String
+    lastName: String
+    nickname: String
+    username: String
+    email: String
+    password: String
+    bio: String
+    image: String
+  ): User!
+}

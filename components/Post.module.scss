@@ -11,11 +11,6 @@
       transform: translateY(-1rem);
       box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.1);
     }
-    .contentsContainer {
-      .title {
-        color: $text-link-hover-color;
-      }
-    }
   }
   .thumbnail {
     border-radius: 1.4rem;
@@ -28,7 +23,6 @@
   .contentsContainer {
     .title {
       font-size: 3.6rem;
-      color: $text-default-color;
       font-weight: 600;
       transition: color 0.2s ease;
     }

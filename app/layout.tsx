@@ -1,3 +1,5 @@
+import 'react-toastify/dist/ReactToastify.css';
+
 import '#styles/reset.scss';
 import '#styles/global.scss';
 

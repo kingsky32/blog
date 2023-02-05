@@ -1,0 +1,30 @@
+@import '#styles/colors.module.scss';
+
+.container {
+  width: 100%;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 10rem 0;
+  .inner {
+    padding: 0 2rem;
+    .title {
+      margin: 0 0 5rem;
+      font-size: 4.8rem;
+      font-weight: 700;
+      line-height: 5.6rem;
+      color: $text-default-color;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-align: center;
+    }
+    .input {
+      width: 100%;
+      &:not(:last-of-type) {
+        margin-bottom: 3rem;
+      }
+    }
+    .submitButton {
+      margin-top: 3rem;
+    }
+  }
+}

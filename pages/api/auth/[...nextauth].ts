@@ -15,22 +15,26 @@ export const authOptions: NextAuthOptions = {
       name: 'Credentials',
       type: 'credentials',
       credentials: {
-        email: {
-          label: 'Email',
+        username: {
+          label: '아이디',
           type: 'email',
-          placeholder: 'example@example.com',
+          placeholder: '아이디를 입력해주세요',
         },
         password: {
-          label: 'Password',
+          label: '비밀번호',
           type: 'password',
-          placeholder: 'Password',
+          placeholder: '비밀번호를 입력해주세요',
+        },
+        isAuto: {
+          label: '자동 로그인',
+          type: 'checkbox',
         },
       },
       async authorize(credentials): Promise<User | null> {
         if (!credentials) return null;
         const user = await prisma.user.findUnique({
           where: {
-            email: credentials.email,
+            username: credentials.username,
           },
           include: {
             role: {
