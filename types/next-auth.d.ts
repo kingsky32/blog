@@ -1,11 +1,8 @@
 import { Role } from '@prisma/client';
-import { User } from 'next-auth';
 import { ISODateString } from 'next-auth/core/types';
 
 declare module 'next-auth' {
   export interface DefaultSession {
-    accessToken?: string | null;
-    tokenType?: string | null;
     user?: {
       id?: string | null;
       name?: string | null;

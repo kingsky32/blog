@@ -1,0 +1,9 @@
+input UpdateAdminMenuInput {
+  icon: String
+  name: String!
+  link: String!
+}
+
+type Mutation {
+  updateAdminMenu(adminMenus: [UpdateAdminMenuInput]): [AdminMenu!]!
+}

@@ -44,6 +44,7 @@ model User {
   id            String    @id @default(cuid())
   firstName     String?   @map("first_name")
   lastName      String?   @map("last_name")
+  name          String?
   nickname      String?   @unique
   username      String?   @unique
   email         String?   @unique
@@ -97,6 +98,19 @@ model File {
   posts Post[]
 
   @@map("files")
+}
+
+model AdminMenu {
+  id       Int     @id @default(autoincrement())
+  icon     String?
+  name     String
+  link     String
+  orderNum Int     @map(name: "order_num")
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  @@map("admin_menus")
 }
 
 model Category {

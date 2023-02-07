@@ -1,12 +1,10 @@
 import React from 'react';
 
-export interface LogoProps {
-  width?: string;
-}
+export interface LogoProps extends React.SVGAttributes<HTMLOrSVGElement> {}
 
-export default function Logo({ width }: LogoProps): React.ReactElement {
+export default function Logo(props: LogoProps): React.ReactElement {
   return (
-    <svg version="1.1" viewBox="0 0 504.3 134.2" width={width}>
+    <svg version="1.1" viewBox="0 0 504.3 134.2" {...props}>
       <mask id="mask">
         <path
           id="mk"

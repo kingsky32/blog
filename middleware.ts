@@ -13,9 +13,20 @@ export default withAuth(
       const cookie = request.headers.get('cookie');
       if (cookie) {
         const session = await getSession(cookie);
-        if (session && !session.error) {
+        if (session) {
           return NextResponse.redirect(new URL('/', request.url));
         }
+      }
+    }
+    if (request.nextUrl.pathname.startsWith('/admin')) {
+      const cookie = request.headers.get('cookie');
+      if (cookie) {
+        const session = await getSession(cookie);
+        if (!session) {
+          return NextResponse.redirect(new URL('/sign_in', request.url));
+        }
+      } else {
+        return NextResponse.redirect(new URL('/sign_in', request.url));
       }
     }
     return NextResponse.next();

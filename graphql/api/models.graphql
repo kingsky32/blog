@@ -28,6 +28,7 @@ type User {
   firstName: String
   lastName: String
   nickname: String
+  name: String
   username: String
   email: String
   emailVerified: Date
@@ -60,6 +61,17 @@ type File {
 
   createdAt: Date!
   updatedAt: Date!
+}
+
+type AdminMenu {
+  id: Int!
+  icon: String
+  name: String!
+  link: String!
+  createdAt: Date!
+  updatedAt: Date!
+  parentAdminMenu: AdminMenu
+  children: [AdminMenu!]!
 }
 
 type Category {

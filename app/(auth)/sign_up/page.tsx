@@ -3,37 +3,20 @@
 import React from 'react';
 import Form from '#components/Form';
 import { useForm } from 'react-hook-form';
-import { gql, useMutation } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { toast } from 'react-toastify';
 import { GraphQLError } from 'graphql/error';
 import { signIn } from 'next-auth/react';
 import styles from './page.module.scss';
-
-const JOIN_MUTATION = gql`
-  mutation join(
-    $name: String!
-    $nickname: String!
-    $username: String!
-    $email: String!
-    $password: String!
-  ) {
-    join(
-      lastName: $name
-      nickname: $nickname
-      username: $username
-      email: $email
-      password: $password
-    ) {
-      id
-    }
-  }
-`;
 
 export default function Page() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setError,
+    clearErrors,
   } = useForm<{
     name: string;
     nickname: string;
@@ -51,7 +34,79 @@ export default function Page() {
       confirmPassword: '',
     },
   });
-  const [joinMutate, { loading }] = useMutation(JOIN_MUTATION);
+  useQuery(
+    gql`
+      query Query($nickname: String!) {
+        validateNickname(nickname: $nickname)
+      }
+    `,
+    {
+      variables: {
+        nickname: watch('nickname'),
+      },
+      onCompleted: () => {
+        if (errors.nickname) clearErrors('nickname');
+      },
+      onError: (error) => {
+        if (error) setError('nickname', { message: error.message });
+      },
+    },
+  );
+  useQuery(
+    gql`
+      query Query($username: String!) {
+        validateUsername(username: $username)
+      }
+    `,
+    {
+      variables: {
+        username: watch('username'),
+      },
+      onCompleted: () => {
+        if (errors.username) clearErrors('username');
+      },
+      onError: (error) => {
+        if (error) setError('username', { message: error.message });
+      },
+    },
+  );
+  useQuery(
+    gql`
+      query Query($email: String!) {
+        validateEmail(email: $email)
+      }
+    `,
+    {
+      variables: {
+        email: watch('email'),
+      },
+      onCompleted: () => {
+        if (errors.email) clearErrors('email');
+      },
+      onError: (error) => {
+        if (error) setError('email', { message: error.message });
+      },
+    },
+  );
+  const [joinMutate, { loading }] = useMutation(gql`
+    mutation Mutation(
+      $name: String!
+      $nickname: String!
+      $username: String!
+      $email: String!
+      $password: String!
+    ) {
+      join(
+        name: $name
+        nickname: $nickname
+        username: $username
+        email: $email
+        password: $password
+      ) {
+        id
+      }
+    }
+  `);
 
   return (
     <Form

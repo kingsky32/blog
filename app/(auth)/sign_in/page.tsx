@@ -19,7 +19,10 @@ export default function Page() {
     isAuto: boolean;
   }>({
     defaultValues: {
-      username: localStorage.getItem('username') ?? '',
+      username:
+        typeof window !== 'undefined'
+          ? window.localStorage.getItem('username') ?? ''
+          : '',
       password: '',
       isSaveUsername: true,
       isAuto: true,

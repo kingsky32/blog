@@ -10,6 +10,7 @@ export default {
         firstName: string;
         lastName: string;
         nickname: string;
+        name: string;
         username: string;
         email: string;
         password: string;
