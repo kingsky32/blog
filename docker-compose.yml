@@ -1,14 +1,14 @@
 version: '3'
 services:
   app:
+    container_name: app
     build:
       context: .
       dockerfile: ./app.Dockerfile
     ports:
       - '3000:3000'
-    networks:
-      - next
   db:
+    container_name: db
     image: postgres:latest
     restart: always
     ports:
@@ -17,14 +17,9 @@ services:
       POSTGRES_USER: blog
       POSTGRES_PASSWORD: blog
       POSTGRES_DB: blog
-    networks:
-      - next
   redis:
+    container_name: redis
     image: redis:alpine
     restart: always
     ports:
       - '6379:6379'
-
-networks:
-  next:
-    driver: bridge
