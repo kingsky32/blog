@@ -1,12 +1,5 @@
 version: '3'
 services:
-  app:
-    container_name: app
-    build:
-      context: .
-      dockerfile: ./app.Dockerfile
-    ports:
-      - '3000:3000'
   db:
     container_name: db
     image: postgres:latest
@@ -23,3 +16,10 @@ services:
     restart: always
     ports:
       - '6379:6379'
+  app:
+    container_name: app
+    build:
+      context: .
+      dockerfile: ./app.Dockerfile
+    ports:
+      - '3000:3000'
