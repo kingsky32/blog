@@ -6,12 +6,14 @@ import * as Icons from '@ant-design/icons';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import Logo from '#components/Logo';
+import { usePathname } from 'next/navigation';
 
 export interface MenuProps {
   key: React.Key;
   icon?: string | null;
   link: string;
   name: string;
+  children?: Omit<MenuProps, 'children'>[];
 }
 
 export default function AdminLayout({
@@ -21,6 +23,7 @@ export default function AdminLayout({
   children: React.ReactNode;
   menus: MenuProps[];
 }) {
+  const pathname = usePathname();
   const {
     token: { colorBgContainer },
   } = theme.useToken();
@@ -38,7 +41,7 @@ export default function AdminLayout({
         }}
       >
         <h1>
-          <Link href="/admin">
+          <Link href="/admin/dashboard">
             <Logo width="15rem" fill="#ffffff" style={{ margin: 16 }} />
           </Link>
         </h1>
@@ -52,9 +55,50 @@ export default function AdminLayout({
             return {
               key: menu.key,
               icon: Icon && <Icon />,
-              label: <Link href={menu.link}>{menu.name}</Link>,
+              label: menu.children?.length ? (
+                menu.name
+              ) : (
+                <Link href={menu.link}>{menu.name}</Link>
+              ),
+              children: menu.children?.map((childMenu) => {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                // eslint-disable-next-line no-shadow
+                const Icon = Icons[childMenu.icon];
+                return {
+                  key: childMenu.key,
+                  icon: Icon && <Icon />,
+                  label: <Link href={childMenu.link}>{childMenu.name}</Link>,
+                };
+              }),
             };
           })}
+          defaultOpenKeys={
+            menus.reduce<string[]>(
+              (p, menu) =>
+                pathname?.startsWith(menu.link)
+                  ? [...p, menu.key as string]
+                  : p,
+              [],
+            ) as string[]
+          }
+          selectedKeys={menus.reduce<string[]>(
+            (p, menu) =>
+              pathname?.startsWith(menu.link)
+                ? [
+                    ...p,
+                    menu.key as string,
+                    ...(menu.children?.reduce<string[]>(
+                      (p2, childMenu) =>
+                        pathname?.startsWith(childMenu.link)
+                          ? [...p2, childMenu.key as string]
+                          : p2,
+                      [],
+                    ) ?? []),
+                  ]
+                : p,
+            [],
+          )}
         />
       </Layout.Sider>
       <Layout

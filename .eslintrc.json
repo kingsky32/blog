@@ -49,7 +49,6 @@
     "prefer-promise-reject-errors": 0,
     "react/no-this-in-sfc": 0,
     "no-bitwise": 0,
-    "no-shadow": 0,
     "react-native/split-platform-components": 0,
     "no-throw-literal": 0,
     "react/require-default-props": 0,

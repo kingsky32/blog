@@ -12,6 +12,18 @@ export default async function Layout({
       icon: true,
       name: true,
       link: true,
+      children: {
+        select: {
+          id: true,
+          icon: true,
+          name: true,
+          link: true,
+        },
+      },
+    },
+    where: {
+      isActive: true,
+      parentId: null,
     },
     orderBy: [
       {
@@ -21,7 +33,16 @@ export default async function Layout({
   });
   return (
     <AdminLayout
-      menus={menus.map((menu) => ({ key: `Menu-${menu.id}`, ...menu }))}
+      menus={menus.map((menu) => ({
+        key: `Menu-${menu.id}`,
+        ...menu,
+        children: menu.children?.length
+          ? menu.children.map((childMenu) => ({
+              key: `Menu-${menu.id}-${childMenu.id}`,
+              ...childMenu,
+            }))
+          : undefined,
+      }))}
     >
       {children}
     </AdminLayout>

@@ -105,10 +105,15 @@ model AdminMenu {
   icon     String?
   name     String
   link     String
+  parentId Int?
+  isActive Boolean @default(false) @map(name: "is_active")
   orderNum Int     @map(name: "order_num")
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  parent   AdminMenu?  @relation("Parent", fields: [parentId], references: [id])
+  children AdminMenu[] @relation("Parent")
 
   @@map("admin_menus")
 }
