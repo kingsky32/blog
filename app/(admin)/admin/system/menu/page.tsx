@@ -1,4 +1,5 @@
 import React from 'react';
+import prisma from '#libs/prisma';
 import Table from './Table';
 
 export default async function Page() {

@@ -1,4 +1,5 @@
 import React from 'react';
+import prisma from '#libs/prisma';
 import Post from '#components/Post';
 import styles from './page.module.scss';
 

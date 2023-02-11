@@ -13,7 +13,7 @@ function createApolloClient(): ApolloClient<NormalizedCacheObject> {
     uri: process.env.NEXT_PUBLIC_APOLLO_CLIENT_URI,
     ssrMode: typeof window === 'undefined',
     link: new HttpLink({
-      uri: `${process.env.NEXT_PUBLIC_APOLLO_CLIENT_URI}/api/graphql`,
+      uri: process.env.NEXT_PUBLIC_APOLLO_CLIENT_URI,
       credentials: 'same-origin',
     }),
     cache: new InMemoryCache(),

@@ -1,5 +1,8 @@
 import React from 'react';
+import prisma from '#libs/prisma';
 import AdminLayout from './AdminLayout';
+
+export const dynamic = 'auto';
 
 export default async function Layout({
   children,

@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 import { notFound } from 'next/navigation';
+import prisma from '#libs/prisma';
 import styles from './page.module.scss';
 
 export default async function Page({ params }: { params?: { id: string } }) {
