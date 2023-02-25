@@ -2,18 +2,21 @@ import '#styles/reset.scss';
 import '#styles/global.scss';
 
 import React from 'react';
-import Logo from '#components/Logo';
 import Link from 'next/link';
 import dayjs from 'dayjs';
+import prisma from '#libs/prisma';
+import Logo from '#components/Logo';
 import styles from './layout.module.scss';
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
-export default function MainLayout({
-  children,
-}: MainLayoutProps): React.ReactElement {
+export default async function MainLayout({ children }: MainLayoutProps) {
+  const config = await prisma.config.findFirst({
+    select: { title: true },
+    orderBy: { createdAt: 'desc' },
+  });
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -28,7 +31,8 @@ export default function MainLayout({
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
         <p className={styles.copyright}>
-          &copy;{dayjs().year()}. <Link href="/">SeungJuBlog</Link> All rights
+          &copy;{dayjs().year()}.{' '}
+          <Link href="/">{config?.title ?? 'Seung Ju'}</Link> All rights
           reserved.
         </p>
       </footer>

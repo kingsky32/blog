@@ -9,31 +9,37 @@ export default async function Layout({
 }: {
   children: React.ReactNode;
 }) {
-  const menus = await prisma.adminMenu.findMany({
-    select: {
-      id: true,
-      icon: true,
-      name: true,
-      link: true,
-      children: {
-        select: {
-          id: true,
-          icon: true,
-          name: true,
-          link: true,
+  const [config, menus] = await Promise.all([
+    prisma.config.findFirst({
+      select: { title: true },
+      orderBy: { createdAt: 'desc' },
+    }),
+    prisma.adminMenu.findMany({
+      select: {
+        id: true,
+        icon: true,
+        name: true,
+        link: true,
+        children: {
+          select: {
+            id: true,
+            icon: true,
+            name: true,
+            link: true,
+          },
         },
       },
-    },
-    where: {
-      isActive: true,
-      parentId: null,
-    },
-    orderBy: [
-      {
-        orderNum: 'asc',
+      where: {
+        isActive: true,
+        parentId: null,
       },
-    ],
-  });
+      orderBy: [
+        {
+          orderNum: 'asc',
+        },
+      ],
+    }),
+  ]);
   return (
     <AdminLayout
       menus={menus.map((menu) => ({
@@ -46,6 +52,7 @@ export default async function Layout({
             }))
           : undefined,
       }))}
+      title={config?.title ?? 'Seung Ju'}
     >
       {children}
     </AdminLayout>

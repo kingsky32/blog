@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { gql, useMutation } from '@apollo/client';
 import {
   Button,
   Col,
@@ -17,6 +16,10 @@ import {
 } from 'antd';
 import * as Icons from '@ant-design/icons';
 import produce from 'immer';
+import { useMutation } from 'react-query';
+import axios from 'axios';
+import handleError from '#utils/handleError';
+import { UpdateAdminMenuRequest } from '#pages/api/admin/menu';
 
 export interface Data {
   key: React.Key;
@@ -34,23 +37,21 @@ export interface TableProps {
 export default function Table({ data }: TableProps) {
   const router = useRouter();
   const [dataSource, setDataSource] = React.useState<Data[]>(data);
-  const [mutate, { loading }] = useMutation(gql`
-    mutation Mutation($adminMenus: [UpdateAdminMenuInput!]!) {
-      updateAdminMenu(adminMenus: $adminMenus) {
-        id
-      }
-    }
-  `);
   const [form] = Form.useForm();
+  const mutation = useMutation<any, any, UpdateAdminMenuRequest[]>(
+    (variables) => axios.post('/api/admin/menu', variables),
+  );
   return (
     <Form
       form={form}
       onFinish={
         // eslint-disable-next-line no-shadow
-        ({ data }: { data: Data[] }) => {
-          return mutate({
-            variables: {
-              adminMenus: data.map(
+        ({ data }: { data: (Data & { order: number })[] }) => {
+          mutation.mutate(
+            data
+              .concat()
+              .sort((a, b) => a.order - b.order)
+              .map(
                 // eslint-disable-next-line no-shadow
                 (data) => ({
                   icon: data.icon,
@@ -68,13 +69,14 @@ export default function Table({ data }: TableProps) {
                   ),
                 }),
               ),
+            {
+              onSuccess: () => {
+                router.refresh();
+                message.success('저장완료');
+              },
+              onError: handleError,
             },
-            onCompleted: () => {
-              router.refresh();
-              return message.success('저장완료');
-            },
-            onError: (error) => message.error(error.message),
-          });
+          );
         }
       }
     >
@@ -109,7 +111,8 @@ export default function Table({ data }: TableProps) {
           columns={[
             {
               title: '확장',
-              width: 30,
+              width: 60,
+              align: 'center',
             },
             {
               title: '아이콘',
@@ -233,6 +236,33 @@ export default function Table({ data }: TableProps) {
               },
             },
             {
+              title: '순서',
+              width: 100,
+              align: 'center',
+              render: (_, record, index) => {
+                const parentIndex = !record.children
+                  ? dataSource.findIndex(
+                      // eslint-disable-next-line no-shadow
+                      (data) =>
+                        (record.key as string).startsWith(data.key as string),
+                    )
+                  : -1;
+                return (
+                  <Form.Item
+                    initialValue={index + 1}
+                    noStyle
+                    name={
+                      parentIndex > -1
+                        ? ['data', parentIndex, 'children', index, 'order']
+                        : ['data', index, 'order']
+                    }
+                  >
+                    <Input placeholder="순서" />
+                  </Form.Item>
+                );
+              },
+            },
+            {
               title: '사용',
               dataIndex: 'isActive',
               width: 50,
@@ -339,8 +369,8 @@ export default function Table({ data }: TableProps) {
             <Button
               type="primary"
               htmlType="submit"
-              loading={loading}
-              disabled={loading}
+              loading={mutation.isLoading}
+              disabled={mutation.isLoading}
             >
               저장
             </Button>

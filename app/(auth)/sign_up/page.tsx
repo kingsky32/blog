@@ -1,22 +1,21 @@
 'use client';
 
 import React from 'react';
-import Form from '#components/Form';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
-import { gql, useMutation, useQuery } from '@apollo/client';
-import { toast } from 'react-toastify';
-import { GraphQLError } from 'graphql/error';
-import { signIn } from 'next-auth/react';
+import Form from '#components/Form';
+import { useMutation } from 'react-query';
+import handleError from '#utils/handleError';
+import { useRouter } from 'next/navigation';
+import { message } from 'antd';
 import styles from './page.module.scss';
 
 export default function Page() {
+  const router = useRouter();
   const {
     register,
-    handleSubmit,
     formState: { errors },
-    watch,
-    setError,
-    clearErrors,
+    handleSubmit,
   } = useForm<{
     name: string;
     nickname: string;
@@ -34,109 +33,38 @@ export default function Page() {
       confirmPassword: '',
     },
   });
-  useQuery(
-    gql`
-      query Query($nickname: String!) {
-        validateNickname(nickname: $nickname)
-      }
-    `,
+  const mutation = useMutation<
+    any,
+    any,
     {
-      variables: {
-        nickname: watch('nickname'),
-      },
-      onCompleted: () => {
-        if (errors.nickname) clearErrors('nickname');
-      },
-      onError: (error) => {
-        if (error) setError('nickname', { message: error.message });
-      },
-    },
-  );
-  useQuery(
-    gql`
-      query Query($username: String!) {
-        validateUsername(username: $username)
-      }
-    `,
-    {
-      variables: {
-        username: watch('username'),
-      },
-      onCompleted: () => {
-        if (errors.username) clearErrors('username');
-      },
-      onError: (error) => {
-        if (error) setError('username', { message: error.message });
-      },
-    },
-  );
-  useQuery(
-    gql`
-      query Query($email: String!) {
-        validateEmail(email: $email)
-      }
-    `,
-    {
-      variables: {
-        email: watch('email'),
-      },
-      onCompleted: () => {
-        if (errors.email) clearErrors('email');
-      },
-      onError: (error) => {
-        if (error) setError('email', { message: error.message });
-      },
-    },
-  );
-  const [joinMutate, { loading }] = useMutation(gql`
-    mutation Mutation(
-      $name: String!
-      $nickname: String!
-      $username: String!
-      $email: String!
-      $password: String!
-    ) {
-      join(
-        name: $name
-        nickname: $nickname
-        username: $username
-        email: $email
-        password: $password
-      ) {
-        id
-      }
+      name: string;
+      username: string;
+      nickname: string;
+      email: string;
+      password: string;
     }
-  `);
-
+  >((variables) => axios.post('/api/auth/join', variables));
   return (
     <Form
       className={styles.container}
-      onSubmit={handleSubmit(
-        ({ name, nickname, username, email, password }) => {
-          return joinMutate({
-            variables: {
-              name,
-              nickname,
-              username,
-              email,
-              password,
+      onSubmit={handleSubmit((data) => {
+        mutation.mutate(
+          {
+            name: data.name,
+            username: data.username,
+            nickname: data.nickname,
+            email: data.email,
+            password: data.password,
+          },
+          {
+            onSuccess: () => {
+              message.success('계정이 생성되었습니다');
+              return router.push('/sign_in');
             },
-          })
-            .then(() => {
-              toast.success('회원가입이 완료되었습니다');
-              return signIn('credentials', {
-                username,
-                password,
-                redirect: true,
-              });
-            })
-            .catch((error) => {
-              error?.graphQLErrors?.forEach((error: GraphQLError) => {
-                toast.error(error.message);
-              });
-            });
-        },
-      )}
+            onError: handleError,
+          },
+        );
+      })}
     >
       <div className={styles.inner}>
         <h3 className={styles.title}>회원가입</h3>
@@ -211,11 +139,7 @@ export default function Page() {
           autoComplete="new-password"
           error={errors.confirmPassword}
         />
-        <Form.Button
-          htmlType="submit"
-          className={styles.submitButton}
-          loading={loading}
-        >
+        <Form.Button htmlType="submit" className={styles.submitButton}>
           회원가입
         </Form.Button>
       </div>

@@ -19,9 +19,11 @@ export interface MenuProps {
 export default function AdminLayout({
   children,
   menus,
+  title,
 }: {
   children: React.ReactNode;
   menus: MenuProps[];
+  title: string;
 }) {
   const pathname = usePathname();
   const {
@@ -120,7 +122,7 @@ export default function AdminLayout({
           </div>
         </Layout.Content>
         <Layout.Footer style={{ textAlign: 'center' }}>
-          &copy;{dayjs().year()}. <Link href="/">SeungJuBlog</Link> All rights
+          &copy;{dayjs().year()}. <Link href="/">{title}</Link> All rights
           reserved.
         </Layout.Footer>
       </Layout>

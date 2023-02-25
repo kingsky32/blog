@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import Form from '#components/Form';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { signIn } from 'next-auth/react';
+import Form from '#components/Form';
 import styles from './page.module.scss';
 
 export default function Page() {

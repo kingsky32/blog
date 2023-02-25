@@ -1,8 +1,0 @@
-type Mutation {
-  updateUser(
-    image: String
-    firstName: String
-    lastName: String
-    nickName: String
-  ): User!
-}

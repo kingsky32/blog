@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Logo from '#components/Logo';
 import dayjs from 'dayjs';
 import { getSession } from '#libs/session';
+import prisma from '#libs/prisma';
 import GlobalNavigationBar from './GlobalNavigationBar';
 import styles from './layout.module.scss';
 
@@ -15,7 +16,13 @@ interface MainLayoutProps {
 }
 
 export default async function MainLayout({ children }: MainLayoutProps) {
-  const session = await getSession(headers().get('cookie') as string);
+  const [config, session] = await Promise.all([
+    prisma.config.findFirst({
+      select: { title: true },
+      orderBy: { createdAt: 'desc' },
+    }),
+    getSession(headers().get('cookie') as string),
+  ]);
   return (
     <div className={styles.container}>
       <header className={styles.header}>
@@ -31,7 +38,8 @@ export default async function MainLayout({ children }: MainLayoutProps) {
       <main className={styles.main}>{children}</main>
       <footer className={styles.footer}>
         <p className={styles.copyright}>
-          &copy;{dayjs().year()}. <Link href="/">SeungJuBlog</Link> All rights
+          &copy;{dayjs().year()}.{' '}
+          <Link href="/">{config?.title ?? 'Seung Ju'}</Link> All rights
           reserved.
         </p>
       </footer>

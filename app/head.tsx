@@ -1,14 +1,15 @@
 import React from 'react';
+import prisma from '#libs/prisma';
 
-export default function Head(): React.ReactElement {
+export default async function Head() {
+  const config = await prisma.config.findFirst({
+    orderBy: { createdAt: 'desc' },
+  });
   return (
     <>
-      <title>{process.env.NEXT_PUBLIC_APP_NAME}</title>
+      <title>{config?.title ?? 'Seung Ju'}</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <meta
-        name="description"
-        content={process.env.NEXT_PUBLIC_APP_DESCRIPTION}
-      />
+      <meta name="description" content={config?.description ?? 'Seung Ju'} />
       <link rel="icon" href="/favicon.ico" />
     </>
   );
