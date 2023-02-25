@@ -2,7 +2,7 @@ import React from 'react';
 import prisma from '#libs/prisma';
 import AdminLayout from './AdminLayout';
 
-export const dynamic = 'auto';
+export const dynamic = 'force-dynamic';
 
 export default async function Layout({
   children,

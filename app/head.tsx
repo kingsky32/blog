@@ -1,6 +1,8 @@
 import React from 'react';
 import prisma from '#libs/prisma';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Head() {
   const config = await prisma.config.findFirst({
     orderBy: { createdAt: 'desc' },

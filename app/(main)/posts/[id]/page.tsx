@@ -6,6 +6,8 @@ import { notFound } from 'next/navigation';
 import prisma from '#libs/prisma';
 import styles from './page.module.scss';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page({ params }: { params?: { id: string } }) {
   const post = await prisma.post.findFirst({
     where: {

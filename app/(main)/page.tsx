@@ -3,6 +3,8 @@ import prisma from '#libs/prisma';
 import Post from '#components/Post';
 import styles from './page.module.scss';
 
+export const dynamic = 'force-dynamic';
+
 export default async function HomePage() {
   const posts = await prisma.post.findMany({
     take: 4,

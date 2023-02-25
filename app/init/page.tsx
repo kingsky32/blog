@@ -8,6 +8,8 @@ import { useMutation } from 'react-query';
 import handleError from '#utils/handleError';
 import { InitRequest } from '#pages/api/init';
 
+export const dynamic = 'force-dynamic';
+
 export default function Page() {
   const router = useRouter();
   const [current, setCurrent] = React.useState<number>(0);

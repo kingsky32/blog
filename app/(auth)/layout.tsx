@@ -12,6 +12,8 @@ interface MainLayoutProps {
   children: React.ReactNode;
 }
 
+export const dynamic = 'force-dynamic';
+
 export default async function MainLayout({ children }: MainLayoutProps) {
   const config = await prisma.config.findFirst({
     select: { title: true },

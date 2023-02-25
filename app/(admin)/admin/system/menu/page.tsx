@@ -2,6 +2,8 @@ import React from 'react';
 import prisma from '#libs/prisma';
 import Table from './Table';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page() {
   const adminMenus = await prisma.adminMenu.findMany({
     select: {
