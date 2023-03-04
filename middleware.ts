@@ -12,14 +12,14 @@ export default withAuth(
       request.nextUrl.pathname.startsWith('/api')
     )
       return NextResponse.next();
+    if (!isInit) {
+      isInit = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/init`).then(
+        (res) => res.ok,
+      );
+    }
     if (request.nextUrl.pathname !== '/init') {
       if (!isInit) {
-        isInit = await fetch(
-          `${process.env.NEXT_PUBLIC_APP_URL}/api/init`,
-        ).then((res) => res.ok);
-        if (!isInit) {
-          return NextResponse.redirect(new URL('/init', request.url));
-        }
+        return NextResponse.redirect(new URL('/init', request.url));
       }
     } else if (isInit) {
       return NextResponse.redirect(new URL('/', request.url));

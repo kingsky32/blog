@@ -1,0 +1,25 @@
+.li {
+  &:not(:last-child) {
+    border-bottom: 1px solid #efefef;
+  }
+  .dl {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    .dt {
+      flex: 1;
+      padding: 15px 20px;
+      border-right: 1px solid #efefef;
+      font-size: 14px;
+      color: #333333;
+      font-weight: 600;
+    }
+    .dd {
+      flex: 8;
+      padding: 15px 20px;
+      color: #333333;
+      font-size: 14px;
+      font-weight: 400;
+    }
+  }
+}

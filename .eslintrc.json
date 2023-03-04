@@ -69,7 +69,8 @@
     "import/no-mutable-exports": 0,
     "no-undef": 0,
     "jsx-a11y/label-has-associated-control": 0,
-    "prettier/prettier": ["error", { "endOfLine": "auto" }]
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "@typescript-eslint/ban-ts-comment": 0
   },
   "settings": {
     "import/resolver": {

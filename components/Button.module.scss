@@ -1,0 +1,53 @@
+@import '#styles/colors.module.scss';
+
+.button {
+  display: block;
+  height: 35px;
+  line-height: 35px;
+  text-align: center;
+  border-radius: 5px;
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #efefef;
+  font-size: 14px;
+  letter-spacing: -1px;
+  padding: 0 15px;
+  transition: opacity 0.2s ease;
+  cursor: pointer;
+  &:disabled {
+    background-color: $light-color;
+    cursor: not-allowed;
+  }
+  &:hover {
+    opacity: 0.85;
+  }
+  &.loading {
+    background-color: $light-color;
+    cursor: not-allowed;
+  }
+  &.primary {
+    background-color: $primary-color;
+    color: #ffffff;
+    border-color: $primary-color;
+  }
+  &.danger {
+    background-color: $danger-color;
+    color: #ffffff;
+    border-color: $danger-color;
+  }
+  &.small {
+    height: 20px;
+    line-height: 20px;
+  }
+  &.large {
+    height: 50px;
+    line-height: 50px;
+  }
+  a {
+    color: inherit;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
